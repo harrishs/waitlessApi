@@ -1,4 +1,5 @@
 const Item = require("../models/item");
+const Restaurant = require("../models/restaurant");
 
 exports.getMenu = (req, res, next) => {
     Item.find()
@@ -19,18 +20,25 @@ exports.postAddItem = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
+    const restaurant = req.body.restaurantId;
 
     const item = new Item(
         {
             name,
             price,
             description,
-            imageUrl
+            imageUrl,
+            restaurant
         }
     )
     item.save()
     .then(result => {
-        res.status(200).json({item: item});
+        Restaurant.findById(restaurant)
+        .then(restaurant => {
+            restaurant.menu.items.push(item);
+            return restaurant.save();
+        }).then(() => res.status(200).json({item: result, menu: restaurant.menu}))
+        .catch(err => res.status(401).json({err}));
     }).catch(err => res.status(400).json({err: err}));
 }
 

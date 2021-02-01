@@ -11,12 +11,16 @@ const restaurantSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     tags: Array,
     menu: {
         items: [
             {
                 itemId: {type: Schema.Types.ObjectId, required: true, ref: "Item"}, 
-                inStock: {type: Boolean, required: true}
+                inStock: {type: Boolean, default: true}
             }
         ]
     }
