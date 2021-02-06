@@ -4,13 +4,15 @@ const restaurantController = require("../controllers/restaurant");
 
 const router = express.Router();
 
-router.get("/menu", restaurantController.getMenu);
+router.get("/menus", restaurantController.getMenus);
 
-router.get("/menu/:itemId", restaurantController.getItem);
+router.get("/:menuId", restaurantController.getMenu);
 
-router.post("/menu/add", restaurantController.postAddItem);
+router.get("/:restaurantId/addMenu", restaurantController.addMenu);
 
-router.put("/menu/edit/:itemId", restaurantController.putEditItem);
+router.post("/:menuId/addItem", restaurantController.postAddItem);
+
+router.put("/:menuId/edit/:itemId", restaurantController.putEditItem);
 
 router.delete("/menu/delete/:itemId", restaurantController.deleteItem);
 

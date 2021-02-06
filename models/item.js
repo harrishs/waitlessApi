@@ -19,9 +19,9 @@ const itemSchema = new Schema({
         type: String,
         required: false
     },
-    restaurant: {
+    menu: {
         type: Schema.Types.ObjectId,
-        ref: "Restaurant",
+        ref: "Menu",
         required: true
     }
 })
