@@ -1,19 +1,20 @@
 const express = require("express");
+const isAuth = require("../middleware/isAuth");
 
 const restaurantController = require("../controllers/restaurant");
 
 const router = express.Router();
 
-router.get("/menus", restaurantController.getMenus);
+router.get("/:restaurantId/menus", restaurantController.getMenus);
 
 router.get("/:menuId", restaurantController.getMenu);
 
-router.get("/:restaurantId/addMenu", restaurantController.addMenu);
+router.get("/:restaurantId/addMenu", isAuth, restaurantController.addMenu);
 
-router.post("/:menuId/addItem", restaurantController.postAddItem);
+router.post("/:menuId/addItem", isAuth, restaurantController.postAddItem);
 
-router.put("/:menuId/edit/:itemId", restaurantController.putEditItem);
+router.put("/:menuId/edit/:itemId", isAuth, restaurantController.putEditItem);
 
-router.delete("/menu/delete/:itemId", restaurantController.deleteItem);
+router.delete("/menu/delete/:itemId", isAuth, restaurantController.deleteItem);
 
 module.exports = router;

@@ -3,8 +3,10 @@ const Item = require("../models/item");
 const Restaurant = require("../models/restaurant");
 
 exports.getMenus = (req, res, next) => {
-    Menu.find()
-    .then(menus => {
+    const restaurantId = req.params.restaurantId;
+    Restaurant.findById(restaurantId)
+    .then(restaurant => {
+        menus = restaurant.menus;
         res.status(200).json({menus});
     }).catch(err => res.status(400).json({err: err}));
 }
@@ -17,7 +19,7 @@ exports.getMenu = (req, res, next) => {
 }
 
 exports.addMenu = (req, res, next) => {
-    const restaurantId = req.params.restaurantId;
+    const restaurantId = req.userId;
     const name = req.body.name;
     const items = [];
 
@@ -58,7 +60,7 @@ exports.postAddItem = (req, res, next) => {
         Menu.findById(menuId)
         .then(menu => {
             menu.items.push({itemId: result._id});
-            return restaurant.save();
+            return menu.save();
         }).then(() => res.status(200).json({item: result, menu: menu}))
         .catch(err => res.status(401).json({err}));
     }).catch(err => res.status(400).json({err: err}));

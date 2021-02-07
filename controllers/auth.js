@@ -14,7 +14,9 @@ exports.postRegister = (req, res, next) => {
             email,
             password: hashedPass,
             name
-        }).then(result => {
+        });
+        restaurant.save()
+        .then(result => {
             const token = jwt.sign({
                 email: result.email,
                 userId: result._id
@@ -34,7 +36,7 @@ exports.postLogin = (req, res, next) => {
             res.status(404).json({err: "A user with this email was not found."})
         }
         loadedRestaurant = restaurant;
-        bcrypt.compare(password, user.password)
+        bcrypt.compare(password, loadedRestaurant.password)
         .then(isEqual => {
             //if password does not match stored hash
             if (!isEqual) {
