@@ -7,6 +7,10 @@ const menuSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     items: [
             {
                 itemId: {type: Schema.Types.ObjectId, required: true, ref: "Item"}, 

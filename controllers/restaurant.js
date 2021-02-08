@@ -1,6 +1,7 @@
 const Menu = require("../models/menu");
 const Item = require("../models/item");
 const Restaurant = require("../models/restaurant");
+const restaurant = require("../models/restaurant");
 
 exports.getMenus = (req, res, next) => {
     const restaurantId = req.params.restaurantId;
@@ -18,25 +19,29 @@ exports.getMenu = (req, res, next) => {
     .catch(err => res.status(400).json({err: err}));
 }
 
-exports.addMenu = (req, res, next) => {
+exports.postAddMenu = (req, res, next) => {
     const restaurantId = req.userId;
     const name = req.body.name;
+    const description = req.body.description;
     const items = [];
 
     const menu = new Menu(
         {
             name,
+            description,
             items,
-            restaurantId
+            restaurant: restaurantId
         }
     );
     menu.save()
     .then(result => {
         Restaurant.findById(restaurantId)
         .then(restaurant => {
-            restaurant.menus.push({menu: result._id})
-            .catch(err => res.status(401).json({err}));
-        })}).catch(err => res.status(400).json({err: err}));
+            restaurant.menus.push(menu);
+            return restaurant.save();
+        }).then(res.status(200).json({result}))
+        .catch(err => res.status(401).json({err}));
+    }).catch(err => res.status(400).json({err: err}));
 }
 
 exports.postAddItem = (req, res, next) => {
@@ -59,7 +64,7 @@ exports.postAddItem = (req, res, next) => {
     .then(result => {
         Menu.findById(menuId)
         .then(menu => {
-            menu.items.push({itemId: result._id});
+            menu.items.push({item});
             return menu.save();
         }).then(() => res.status(200).json({item: result, menu: menu}))
         .catch(err => res.status(401).json({err}));

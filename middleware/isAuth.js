@@ -1,10 +1,10 @@
-const jqt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const jwToken = process.env.JWT_KEY;
 
 const isAuth = (req, res, next) => {
-    const token = req.header("x-auth-token");
+    const token = req.get("X-Auth-Token");
     if (!token) {
         return res.status(401).json({ error: "No token, auth failed" });
     }
