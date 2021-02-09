@@ -13,8 +13,10 @@ router.post("/:restaurantId/addMenu", isAuth, restaurantController.postAddMenu);
 
 router.post("/:menuId/addItem", isAuth, restaurantController.postAddItem);
 
-router.put("/:menuId/edit/:itemId", isAuth, restaurantController.putEditItem);
+router.put("/:menuId/:itemId/edit", isAuth, restaurantController.putEditItem);
 
-router.delete("/menu/delete/:itemId", isAuth, restaurantController.deleteItem);
+router.delete("/:menuId/delete", isAuth, restaurantController.deleteMenu);
+
+router.delete("/:menuId/:itemId/delete", isAuth, restaurantController.deleteItem);
 
 module.exports = router;

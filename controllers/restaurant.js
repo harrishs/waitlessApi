@@ -91,9 +91,26 @@ exports.putEditItem = (req, res, next) => {
     .catch(err => res.status(400).json({err: err}));
 }
 
+exports.deleteMenu = (req, res, next) => {
+    const menuId = req.params.menuId;
+    const restaurantId = req.userId;
+    Menu.findByIdAndDelete(menuId)
+    .then(() => Restaurant.findById(restaurantId))
+    .then(restaurant => {
+        restaurant.menus.pull(menuId);
+        return restaurant.save();
+    }).then(() => res.status(200).json({item: "Item successfully deleted!"}))
+    .catch(err => res.status(400).json({err}));
+}
+
 exports.deleteItem = (req, res, next) => {
     const itemId = req.params.itemId;
+    const menuId = req.params.menuId;
     Item.findByIdAndDelete(itemId)
-    .then(result => res.status(200).json({item: "Item successfully deleted!"}))
+    .then(() => Menu.findById(menuId))
+    .then(menu => {
+        menu.items.pull(itemId);
+        return menu.save();
+    }).then(() => res.status(200).json({item: "Item successfully deleted!"}))
     .catch(err => res.status(400).json({err: err}));
 }
