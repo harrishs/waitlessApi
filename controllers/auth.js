@@ -45,7 +45,7 @@ exports.postLogin = (req, res, next) => {
             const token = jwt.sign({
                 email: loadedRestaurant.email,
                 userId: loadedRestaurant._id
-            }, process.env.JWT_KEY, {expiresIn: "1h"});
+            }, process.env.JWT_KEY);
             res.status(200).json({token, userId: loadedRestaurant._id});
         }).catch(err => res.status(400).json({err: err}));
     })

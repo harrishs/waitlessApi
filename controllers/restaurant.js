@@ -25,23 +25,28 @@ exports.postAddMenu = (req, res, next) => {
     const description = req.body.description;
     const items = [];
 
-    const menu = new Menu(
-        {
-            name,
-            description,
-            items,
-            restaurant: restaurantId
+    Restaurant.findById(restaurantId)
+    .then(restaurant => {
+        if (restaurant.menus.length >= 5){
+            res.status(401).json({err: "You have reached the max number of menus"});
+        } else {
+            const menu = new Menu(
+                {
+                    name,
+                    description,
+                    items,
+                    restaurant: restaurantId
+                }
+            );
+            menu.save()
+            .then(result => {
+                restaurant.menus.push(menu);
+                restaurant.save()
+                .then(res.status(200).json({result}))
+                .catch(err => res.status(401).json({err}));
+            }).catch(err => res.status(400).json({err: err}));
         }
-    );
-    menu.save()
-    .then(result => {
-        Restaurant.findById(restaurantId)
-        .then(restaurant => {
-            restaurant.menus.push(menu);
-            return restaurant.save();
-        }).then(res.status(200).json({result}))
-        .catch(err => res.status(401).json({err}));
-    }).catch(err => res.status(400).json({err: err}));
+    })
 }
 
 exports.postAddItem = (req, res, next) => {
