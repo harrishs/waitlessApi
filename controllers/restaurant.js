@@ -1,7 +1,6 @@
 const Menu = require("../models/menu");
 const Item = require("../models/item");
 const Restaurant = require("../models/restaurant");
-const restaurant = require("../models/restaurant");
 
 exports.getMenus = (req, res, next) => {
     const restaurantId = req.params.restaurantId;
@@ -17,6 +16,13 @@ exports.getMenu = (req, res, next) => {
     Menu.findById(menuId)
     .then(menu => res.status(200).json({menu}))
     .catch(err => res.status(400).json({err: err}));
+}
+
+exports.getItem = (req, res, next) => {
+    const itemId = req.params.itemId;
+    Item.findById(itemId)
+    .then(item => res.status(200).json({item}))
+    .catch(err => res.status(400).json({err}));
 }
 
 exports.postAddMenu = (req, res, next) => {
