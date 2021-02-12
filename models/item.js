@@ -23,6 +23,10 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
+    position: {
+        type: Number,
+        required: true
+    },
     menu: {
         type: Schema.Types.ObjectId,
         ref: "Menu",

@@ -9,7 +9,7 @@ router.get("/:restaurantId/menus", restaurantController.getMenus);
 
 router.get("/:menuId", restaurantController.getMenu);
 
-router.get("/:menuId/items", restaurantController.getItem);
+router.get("/:itemId", restaurantController.getItem);
 
 router.post("/:restaurantId/addMenu", isAuth, restaurantController.postAddMenu);
 

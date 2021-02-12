@@ -61,6 +61,8 @@ exports.postAddItem = (req, res, next) => {
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
     const menuId = req.params.menuId;
+    const position = req.body.position;
+    const section = req.body.section;
 
     const item = new Item(
         {
@@ -68,6 +70,8 @@ exports.postAddItem = (req, res, next) => {
             price,
             description,
             imageUrl,
+            section,
+            position,
             menuId
         }
     );
