@@ -11,12 +11,10 @@ const menuSchema = new Schema({
         type: String,
         required: true
     },
-    items: [
-            {
-                itemId: {type: Schema.Types.ObjectId, required: true, ref: "Item"}, 
-                inStock: {type: Boolean, default: true}
-            }
-        ],
+    items: [{
+        type: Schema.Types.ObjectId,
+        ref: "Item"
+    }],
     restaurant: {
         type: Schema.Types.ObjectId,
         ref: "Restaurant",

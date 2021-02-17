@@ -23,9 +23,9 @@ const itemSchema = new Schema({
         type: String,
         required: true
     },
-    position: {
-        type: Number,
-        required: true
+    inStock: {
+        type: Boolean,
+        default: true
     },
     menu: {
         type: Schema.Types.ObjectId,

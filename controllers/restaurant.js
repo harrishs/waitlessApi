@@ -60,9 +60,8 @@ exports.postAddItem = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
-    const menuId = req.params.menuId;
-    const position = req.body.position;
     const section = req.body.section;
+    const menuId = req.params.menuId;
 
     const item = new Item(
         {
@@ -71,18 +70,16 @@ exports.postAddItem = (req, res, next) => {
             description,
             imageUrl,
             section,
-            position,
-            menuId
+            menu: menuId
         }
     );
     item.save()
     .then(result => {
         Menu.findById(menuId)
         .then(menu => {
-            menu.items.push({item});
+            menu.items.push(item);
             return menu.save();
-        }).then(() => res.status(200).json({item: result, menu: menu}))
-        .catch(err => res.status(401).json({err}));
+        }).then(() => res.status(200).json({item: result}))
     }).catch(err => res.status(400).json({err: err}));
 }
 
