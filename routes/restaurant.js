@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.get("/:restaurantId/menus", restaurantController.getMenus);
 
-router.get("/:menuId", restaurantController.getMenu);
+router.get("/menus/:menuId", restaurantController.getMenu);
 
-router.get("/:itemId", restaurantController.getItem);
+router.get("/items/:itemId", restaurantController.getItem);
 
 router.post("/:restaurantId/addMenu", isAuth, restaurantController.postAddMenu);
 
