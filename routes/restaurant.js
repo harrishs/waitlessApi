@@ -19,6 +19,6 @@ router.put("/items/:menuId/:itemId/edit", isAuth, restaurantController.putEditIt
 
 router.delete("/menus/:menuId/delete", isAuth, restaurantController.deleteMenu);
 
-router.delete("/items/:itemId/delete", isAuth, restaurantController.deleteItem);
+router.delete("/items/:menuId/:itemId/delete", isAuth, restaurantController.deleteItem);
 
 module.exports = router;
