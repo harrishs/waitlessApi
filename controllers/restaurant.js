@@ -110,6 +110,7 @@ exports.deleteMenu = (req, res, next) => {
     .then(() => Restaurant.findById(restaurantId))
     .then(restaurant => {
         restaurant.menus.pull(menuId);
+        Item.deleteMany({menu: menuId});
         return restaurant.save();
     }).then(() => res.status(200).json({item: "Item successfully deleted!"}))
     .catch(err => res.status(400).json({err}));

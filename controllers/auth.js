@@ -8,12 +8,18 @@ exports.postRegister = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
+    const address = req.body.address;
+    const longitude = req.body.longitude;
+    const latitude = req.body.latitude;
     bcrypt.hash(password, salt)
     .then(hashedPass => {
         const restaurant = new Restaurant({
             email,
             password: hashedPass,
-            name
+            name,
+            address,
+            longitude,
+            latitude
         });
         restaurant.save()
         .then(result => {
