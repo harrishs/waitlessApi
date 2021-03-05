@@ -31,7 +31,11 @@ const restaurantSchema = new Schema({
     menus: [{
         type: Schema.Types.ObjectId,
         ref: "Menu"
-    }]
+    }],
+    waitlist: {
+        type: Schema.Types.ObjectId,
+        ref: "Waitlist"
+    }
 
 })
 

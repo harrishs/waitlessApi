@@ -14,9 +14,11 @@ app.use(cors());
 
 const authRoutes = require("./routes/auth");
 const restaurantRoutes = require("./routes/restaurant");
+const waitlistRoutes = require("./routes/waitlist");
 
 app.use("/auth", authRoutes);
 app.use("/restaurant", restaurantRoutes);
+app.use("/waitlist", waitlistRoutes);
 
 mongoose.connect(process.env.MONGO,  {
     useNewUrlParser: true,
