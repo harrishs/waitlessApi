@@ -8,7 +8,7 @@ exports.getWaitlist = (req, res, next) => {
     Restaurant.findById(restaurantId)
     .then(restaurant => {
         if (restaurant.Waitlist){
-            Waitlist.findById(restairant.Waitlist)
+            Waitlist.findById(restaurant.Waitlist)
             .then(waitlist => res.status(200).json({waitlist}))
             .catch(err => res.status(400).json({err}));
         }

@@ -17,7 +17,7 @@ const waitlistSchema = new Schema({
     }],
     restaurant: {
         type: Schema.Types.ObjectId,
-        ref: "Reservation",
+        ref: "Restaurant",
         required: true
     }
 })
