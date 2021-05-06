@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/view/:restaurantId/waitlist", waitlistController.getWaitlist);
 
-router.post("/add", isAuth, waitlistController.addWaitlist);
+router.post("/:restaurantId/addWaitlist", isAuth, waitlistController.addWaitlist);
 
 router.post("/book/:waitlistId", waitlistController.addReservation);
 
