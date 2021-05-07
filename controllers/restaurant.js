@@ -98,7 +98,7 @@ exports.putEditItem = (req, res, next) => {
         item.description = description;
         item.imageUrl = imageUrl;
         item.menu = menuId;
-        return item.save()
+        return item.save();
     }).then(result => res.status(200).json({item: result}))
     .catch(err => res.status(400).json({err: err}));
 }

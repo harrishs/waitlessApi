@@ -1,18 +1,18 @@
 const Restaurant = require("../models/restaurant");
 const Reservation = require("../models/reservation");
 const Waitlist = require("../models/waitlist");
-const restaurant = require("../models/restaurant");
+const waitlist = require("../models/waitlist");
 
 exports.getWaitlist = (req, res, next) => {
     const restaurantId = req.params.restaurantId;
     Restaurant.findById(restaurantId)
-    .then(restaurant => {
-        if (restaurant.Waitlist){
-            Waitlist.findById(restaurant.Waitlist)
-            .then(waitlist => res.status(200).json({waitlist}))
-            .catch(err => res.status(400).json({err}));
+    .populate("waitlist").exec((err, restaurant) => {
+        if (err){
+            res.status(400).json({err});
+        } else if (restaurant){
+            res.status(200).json({waitlist: restaurant.waitlist});
         }
-    }).catch(err => res.status(400).json({err}));
+    });
 }
 
 exports.addWaitlist = (req, res, next) => {
@@ -39,6 +39,35 @@ exports.addWaitlist = (req, res, next) => {
             }).catch(err => res.status(400).json({err: err}));
         }
     })
+}
+
+exports.editWaitlist = (req, res, next) => {
+    const waitlistId = req.params.waitlistId;
+    const restaurantId = req.userId;
+    const name = req.body.name;
+    const time = req.body.time;
+
+    Waitlist.findById(waitlistId)
+    .then(waitlist => {
+        waitlist.name = name;
+        waitlist.time = time;
+        waitlist.restaurant = restaurantId;
+        return waitlist.save();
+    }).then(result => res.status(200).json({waitlist: result}))
+    .catch(err => res.status(400).json({err}));
+}
+
+exports.getReservations = (req, res, next) => {
+    const waitlistId = req.params.waitlistId;
+
+    Waitlist.findById(waitlistId)
+    .populate("reservations").exec((err, waitlist) => {
+        if (err){
+            res.status(400).json({err});
+        } else if (waitlist){
+            res.status(200).json({reservations: waitlist.reservations});
+        }
+    });
 }
 
 exports.addReservation = (req, res, next) => {
