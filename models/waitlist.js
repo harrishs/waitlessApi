@@ -13,7 +13,7 @@ const waitlistSchema = new Schema({
     },
     reservations: [{
         type: Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Reservation"
     }],
     restaurant: {
         type: Schema.Types.ObjectId,

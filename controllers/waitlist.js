@@ -1,7 +1,7 @@
 const Restaurant = require("../models/restaurant");
 const Reservation = require("../models/reservation");
 const Waitlist = require("../models/waitlist");
-const waitlist = require("../models/waitlist");
+
 
 exports.getWaitlist = (req, res, next) => {
     const restaurantId = req.params.restaurantId;
@@ -77,18 +77,20 @@ exports.addReservation = (req, res, next) => {
     const position = req.body.position;
     const expire = req.body.expire;
 
-    Waitlist.findById(waitlistId)
-    .then(waitlist => {
-        const reservation = new Reservation({
-            name,
-            size,
-            position,
-            expire,
-            waitlist: waitlistId
-        });
-        reservation.save()
-        .then(res => res.status(200).json({reservation}))
-        .catch(err => res.status(401).json({err}));
+    const reservation = new Reservation({
+        name,
+        size,
+        position,
+        expire,
+        waitlist: waitlistId
+    });
+    reservation.save()
+    .then(result => {
+        Waitlist.findById(waitlistId)
+        .then(waitlist => {
+            waitlist.reservations.push(reservation);
+            return waitlist.save()
+        }).then(() => res.status(200).json({reservation: result}))
     }).catch(err => res.status(400).json({err: err}));
 }
 
