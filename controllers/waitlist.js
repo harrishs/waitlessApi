@@ -19,6 +19,7 @@ exports.addWaitlist = (req, res, next) => {
     const restaurantId = req.userId;
     const name = req.body.name;
     const time = req.body.time;
+    const increment = req.body.increment;
 
     Restaurant.findById(restaurantId)
     .then(restaurant => {
@@ -28,7 +29,8 @@ exports.addWaitlist = (req, res, next) => {
             const waitlist = new Waitlist({
                 name,
                 time,
-                restaurant: restaurantId
+                restaurant: restaurantId,
+                increment
             });
             waitlist.save()
             .then(result => {

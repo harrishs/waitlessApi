@@ -11,6 +11,10 @@ const waitlistSchema = new Schema({
         type: Number,
         required: true
     },
+    increment: {
+        type: Number,
+        required: true
+    },
     reservations: [{
         type: Schema.Types.ObjectId,
         ref: "Reservation"

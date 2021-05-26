@@ -17,6 +17,6 @@ router.post("/book/:waitlistId", waitlistController.addReservation);
 
 router.delete("/delete/:waitlistId", isAuth, waitlistController.deleteWaitlist)
 
-router.delete("/delete/:waitlistId/:reservationId", waitlistController.deleteReservation)
+router.delete("/delete/:waitlistId/reservation/:reservationId", waitlistController.deleteReservation)
 
 module.exports = router;
